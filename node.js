@@ -1,56 +1,52 @@
-'use strict'
-
-
-
 const
-  provisionedEnelxVens = [],
+  provisionedEngines = [],
   //
-  provisionVens = async () => {
+  provisionEngine = async () => {
     try {
       const
-        enelxVenConfigurations = await EnelXVen.findAll(),
+        engineConfigurations = await Engine.findAll(),
         {
-          venConfigsToProvision,
-          provisionedVensExisting
-        } = enelxVenConfigurations.reduce((
+          engineConfigsToProvision,
+          provisionedEnginesExisting
+        } = engineConfigurations.reduce((
           {
-            venConfigsToProvision,
-            provisionedVensExisting
+            engineConfigsToProvision,
+            provisionedEnginesExisting
           },
-          venConfig
+          engineConfig
         ) => {
           const
             {
-              venId: venIdFromConfig
-            } = venConfig,
-            isProvisioned = provisionedEnelxVens.some(
-              ({ venID }) => venID === venIdFromConfig
+              engineId: engineIdFromConfig
+            } = engineConfig,
+            isProvisioned = provisionedEngines.some(
+              ({ engineID }) => engineID === engineIdFromConfig
             );
 
           isProvisioned
-            ? provisionedVensExisting.push(
-                provisionedEnelxVens.find(({ venID }) => venID === venIdFromConfig)
+            ? provisionedEnginesExisting.push(
+                provisionedEngines.find(({ engineID }) => engineID === engineIdFromConfig)
               )
-            : venConfigsToProvision.push(venConfig);
+            : engineConfigsToProvision.push(engineConfig);
 
             return {
-              venConfigsToProvision,
-              provisionedVensExisting
+              engineConfigsToProvision,
+              provisionedEnginesExisting
             };
           },
           {
-            venConfigsToProvision: [],
-            provisionedVensExisting: []
+            engineConfigsToProvision: [],
+            provisionedEnginesExisting: []
           }
         ),
-        provisionedVenPromises = venConfigsToProvision.reduce((
-          newVenPromises,
+        provisionedEnginePromises = engineConfigsToProvision.reduce((
+          newEnginePromises,
           config,
         ) => {
           const
             issues = [],
-            addVenIssue = ({
-              label = "Ven Service",
+            addEngineIssue = ({
+              label = "Engine Service",
               level = 'info',
               msg,
             }) => issues.push({
@@ -63,25 +59,25 @@ const
               cert,
               id,
               key,
-              venId: venID,
-              venName,
+              engineId: engineID,
+              engineName,
               vtnUrl,
             } = config,
             axiosConfig = {
-              rejectUnauthorized: venRejectUnauthorized
+              rejectUnauthorized: engineRejectUnauthorized
             },
-            label = venName ?? venID ?? 'ven: unknown',
-            promise = enelXVenCreate({
-              addVenIssue,
+            label = engineName ?? engineID ?? 'engine: unknown',
+            promise = engineCreate({
+              addEngineIssue,
               axiosConfig,
               ca,
               cert,
               id,
-              isTestVen,
+              isTestEngine,
               key,
               label,
-              venID,
-              venName,
+              engineID,
+              engineName,
               vtnUrl,
             }).then(({
               axios,
@@ -91,42 +87,42 @@ const
                 : {
                   axios,
                   id,
-                  isTestVen,
+                  isTestEngine,
                   label,
-                  venID,
+                  engineID,
                   vtnUrl
                 }
             ));
 
-          newVenPromises.push(promise);
+          newEnginePromises.push(promise);
 
-          return newVenPromises;
+          return newEnginePromises;
         }, []),
-        provisionedVens = await (
-          await Promise.all(provisionedVenPromises)
+        provisionedEngines = await (
+          await Promise.all(provisionedEnginePromises)
         ).filter(Boolean);
 
-      provisionedEnelxVens.length = 0;
-      provisionedEnelxVens.push(...provisionedVensExisting);
-      provisionedEnelxVens.push(...provisionedVens);
+      provisionedEngines.length = 0;
+      provisionedEngines.push(...provisionedEnginesExisting);
+      provisionedEngines.push(...provisionedEngines);
 
-      return [...provisionedEnelxVens];
+      return [...provisionedEngines];
     } catch (err) {
       return [];
     }
   },
-  setupVenService = (server) => {
+  setupEngineService = (server) => {
     const
-      venHandle = setInterval(
-        provisionVens,
+      engineHandle = setInterval(
+        provisionEngine,
       );
 
-    provisionVens();
+    provisionEngine();
   };
 
   module.exports = {
-    setupVenService: venServiceEnabled
-      ? setupVenService
+    setupEngineService: engineServiceEnabled
+      ? setupEngineService
       : noop,
-    processAllVenEvents,
+    processAllEngineEenginets,
   };
