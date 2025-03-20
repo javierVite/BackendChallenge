@@ -24,17 +24,17 @@ Once the server is running, the candidate can use cURL or Postman to test the AP
 Authenticate & Get Account ID
 Request:
 
-curl -X POST http://localhost:3000/<...> -H "Content-Type: application/json" -d '{"username": "alice", "password": "password123"}'
+curl -X <...> http://localhost:3000/<...> -H "Content-Type: application/json" -d '{"username": "alice", "password": "password123"}'
 
 🔹 Retrieve Account Balance
 Request:
 
-curl -X GET http://localhost:3000<...> 
+curl -X <...>  http://localhost:3000<...> 
 
 🔹 Deposit Money
 
 Request:
-curl -X POST http://localhost:3000/<...> -H "Content-Type: application/json" -d '{"amount": 200}'
+curl -X <...>  http://localhost:3000/<...> -H "Content-Type: application/json" -d '{"amount": 200}'
 
 Expected Response:
 { "accountId": "acc1" }
@@ -42,7 +42,7 @@ Expected Response:
 🔹 Withdraw Money
 
 Request:
-curl -X POST http://localhost:3000/<...> -H "Content-Type: application/json" -d '{"amount": 500}'
+curl -X <...>  http://localhost:3000/<...> -H "Content-Type: application/json" -d '{"amount": 500}'
 
 Expected Response:
 { "accountId": "acc1", "balance": 500 }
@@ -59,6 +59,6 @@ Accessing a non-existent account → Should return HTTP 404.
 For those unfamiliar with cURL, Postman can be used:
 
 Open Postman.
-Create a POST request to http://localhost:3000/login.
+Create a <...>  request to http://localhost:3000/login.
 Set Headers:
 "Content-Type": "application/json"
