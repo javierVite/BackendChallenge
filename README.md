@@ -123,7 +123,8 @@ Explanation:
 Note that if the number of students is odd, there is no need to change the last one's seat.
 
 # Backend Node.js Questions
-1) Static Variable with the race condition.  -- @James create a file and append to the repo.
+1.) Provide a quick code review for provisionEngines.js.  Assume all dependencies are correctly imported.
+2.) Implement the secureBankingApi.
 
 # Machine Learning. 
 1) Write the pseudo code for a Cuda process.
