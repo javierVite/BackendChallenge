@@ -128,8 +128,9 @@ Note that if the number of students is odd, there is no need to change the last 
 2.) Implement the secureBankingApi.
 
 # Machine Learning. 
-1) Write the pseudo code for a Cuda process.
-2) Write pseudo code for Exploratory Data Analysis for a Forecast of Time Series Data on the next shape:
+1) What is the difference between training data and test data in machine learning? Why is it important to separate them?
+2) Can you explain what it means for a model to "learn"? How is learning different from just hardcoding rules in a traditional program?
+3) Write pseudo code for Exploratory Data Analysis for a Forecast of Time Series Data on the next shape:
 
 ActualTimeStamp | Value | TimeStamp
 2025-05-13 | 60 | 2025-06-13T01-15-30
